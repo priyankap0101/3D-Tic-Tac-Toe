@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Tic-Tac-Toe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #4e8f8e, #2c3e50);
+            color: white;
+            overflow: hidden;
+            transition: background-color 0.5s ease;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+            flex-wrap: wrap;
+        }
+
+        .sidebar {
+            width: 320px;
+            padding: 2rem;
+            background: linear-gradient(145deg, #2d3a3a, #3f4f4f);
+            border-radius: 15px;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sidebar h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .sidebar input,
+        .sidebar button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .sidebar input {
+            background: #34495e;
+            color: #fff;
+        }
+
+        .sidebar input:focus {
+            border: 2px solid #3498db;
+        }
+
+        .sidebar button {
+            background: #3498db;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(0);
+        }
+
+        .sidebar button:hover {
+            background: #2980b9;
+            transform: translateY(-5px);
+        }
+
+        .sidebar button:active {
+            transform: translateY(2px);
+        }
+
+        .board-container {
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 110px);
+            grid-template-rows: repeat(3, 110px);
+            gap: 15px;
+            margin-top: 1rem;
+            perspective: 1000px;
+        }
+
+        .cell {
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(145deg, #2f3640, #3b3f46);
+            border-radius: 12px;
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3), -5px -5px 20px rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cell:hover {
+            transform: scale(1.1) rotateX(10deg);
+            box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.5), -10px -10px 25px rgba(255, 255, 255, 0.1);
+        }
+
+        .cell:active {
+            transform: scale(0.9);
+        }
+
+        .winning-cell {
+            background: linear-gradient(145deg, #27ae60, #2ecc71) !important;
+            color: white;
+            animation: pulse 0.6s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.1);
+            }
+        }
+
+        .status {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Dark Mode */
+        body.dark {
+            background: #121212;
+        }
+
+        body.dark .sidebar {
+            background: #1c1c1c;
+        }
+
+        body.dark .sidebar input {
+            background: #222;
+        }
+
+        body.dark .cell {
+            background: #222;
+            color: #fff;
+        }
+
+        body.dark .cell:hover {
+            background: #333;
+        }
+
+        body.dark .winning-cell {
+            background: #1e8449 !important;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .sidebar {
+                width: 280px;
+            }
+
+            .board-container {
+                max-width: 400px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .cell {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Player Names</h2>
+            <input type="text" id="playerX" placeholder="Enter Player X Name" oninput="updatePlayerNames()">
+            <input type="text" id="playerO" placeholder="Enter Player O Name" oninput="updatePlayerNames()">
+            <button onclick="restartGame()">Restart Game</button>
+            <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+        </div>
+
+        <div class="board-container">
+            <h1>3D Tic-Tac-Toe</h1>
+            <div class="status" id="status">Current Turn: Player X</div>
+            <div class="board">
+                <div class="cell" onclick="handleClick(0)"></div>
+                <div class="cell" onclick="handleClick(1)"></div>
+                <div class="cell" onclick="handleClick(2)"></div>
+                <div class="cell" onclick="handleClick(3)"></div>
+                <div class="cell" onclick="handleClick(4)"></div>
+                <div class="cell" onclick="handleClick(5)"></div>
+                <div class="cell" onclick="handleClick(6)"></div>
+                <div class="cell" onclick="handleClick(7)"></div>
+                <div class="cell" onclick="handleClick(8)"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let board = ["", "", "", "", "", "", "", "", ""];
+        let currentPlayer = "X";
+        let gameActive = true;
+        let score = { X: 0, O: 0 };
+
+        function updatePlayerNames() {
+            let playerX = document.getElementById("playerX").value || "Player X";
+            let playerO = document.getElementById("playerO").value || "Player O";
+            document.getElementById("status").innerText = `Current Turn: ${currentPlayer === "X" ? playerX : playerO}`;
+        }
+
+        function handleClick(index) {
+            if (!gameActive || board[index] !== "") return;
+
+            board[index] = currentPlayer;
+            document.querySelectorAll(".cell")[index].innerText = currentPlayer;
+
+            let winner = checkWin();
+            if (winner) {
+                highlightWinningCells(winner);
+                let playerName = currentPlayer === "X" ? document.getElementById("playerX").value || "Player X" : document.getElementById("playerO").value || "Player O";
+                document.getElementById("status").innerText = `${playerName} Wins! 🎉`;
+                score[currentPlayer]++;
+                gameActive = false;
+                return;
+            }
+
+            if (board.every(cell => cell !== "")) {
+                document.getElementById("status").innerText = "It's a Draw! 😐";
+                gameActive = false;
+                return;
+            }
+
+            currentPlayer = currentPlayer === "X" ? "O" : "X";
+            updatePlayerNames();
+        }
+
+        function checkWin() {
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
+            ];
+            for (let pattern of winPatterns) {
+                let [a, b, c] = pattern;
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    return pattern;
+                }
+            }
+            return null;
+        }
+
+        function highlightWinningCells(winningCells) {
+            winningCells.forEach(index => {
+                document.querySelectorAll(".cell")[index].classList.add("winning-cell");
+            });
+        }
+
+        function restartGame() {
+            board.fill("");
+            document.querySelectorAll(".cell").forEach(cell => {
+                cell.innerText = "";
+                cell.classList.remove("winning-cell");
+            });
+            currentPlayer = "X";
+            gameActive = true;
+            updatePlayerNames();
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark");
+        }
+    </script>
+</body>
+</html>
