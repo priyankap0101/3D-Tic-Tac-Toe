@@ -1,151 +1,118 @@
+// Game State Variables
 let currentPlayer = 'X';
-let gameBoard = ['', '', '', '', '', '', '', '', ''];
+let gameBoard = Array(9).fill('');
 let isGameOver = false;
-let scoreX = 0;
-let scoreO = 0;
-let timeLeft = 60;
-let interval;
-let darkMode = false;
+let playerXName = 'Player X';
+let playerOName = 'Player O';
 
-const cells = document.querySelectorAll('.cell');
+// Select Elements
+const board = document.querySelector('.board');
 const statusElement = document.getElementById('status');
-const scoreXElement = document.getElementById('scoreX');
-const scoreOElement = document.getElementById('scoreO');
-const timerElement = document.getElementById('timer');
-const progressElement = document.getElementById('progress');
+const gameButton = document.getElementById('gameButton');
+const playerXInput = document.getElementById('playerX');
+const playerOInput = document.getElementById('playerO');
 
+// Sounds
+const winSound = new Audio('win.mp3'); 
+const clickSound = new Audio('click.mp3'); 
+
+// Event Listeners
+playerXInput.addEventListener('input', updatePlayerNames);
+playerOInput.addEventListener('input', updatePlayerNames);
+gameButton.addEventListener('click', startOrRestartGame);
+
+// Dynamic Board Creation
+function createBoard() {
+    board.innerHTML = ''; 
+    gameBoard = Array(9).fill('');
+    isGameOver = false;
+
+    for (let i = 0; i < 9; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.dataset.index = i;
+        cell.addEventListener('click', handleClick);
+        board.appendChild(cell);
+    }
+}
+
+// Update player names dynamically
+function updatePlayerNames() {
+    playerXName = playerXInput.value.trim() || 'Player X';
+    playerOName = playerOInput.value.trim() || 'Player O';
+    updateStatus(`Current Turn: ${currentPlayer === 'X' ? playerXName : playerOName}`);
+}
+
+// Handle cell clicks
 function handleClick(event) {
-    const index = Array.from(cells).indexOf(event.target);
+    if (isGameOver) return;
 
-    // Prevent clicks after the game is over or if cell is already filled
-    if (gameBoard[index] !== '' || isGameOver) return;
+    const index = event.target.dataset.index;
+    if (gameBoard[index] !== '') return;
 
-    // Mark the cell and update the board
+    clickSound.play();
+
     gameBoard[index] = currentPlayer;
-    updateCell(index);
+    event.target.innerText = currentPlayer;
+    event.target.classList.add(`player-${currentPlayer.toLowerCase()}`, 'bounce');
+
     checkWinner();
-    switchPlayer();
+    if (!isGameOver) switchPlayer();
 }
 
-function updateCell(index) {
-    const cell = cells[index];
-    cell.innerText = currentPlayer;
-    cell.classList.add(`player-${currentPlayer.toLowerCase()}`);
-    // Disable further clicks on this cell
-    cell.classList.add('disabled');
-    cell.setAttribute('aria-disabled', 'true');
-}
-
+// Check for a winner or draw
 function checkWinner() {
     const winConditions = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], 
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], 
+        [0, 4, 8], [2, 4, 6]
     ];
 
     for (let condition of winConditions) {
         const [a, b, c] = condition;
         if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
             isGameOver = true;
-            markWinningCells([a, b, c]);
-            updateStatus(`Player ${currentPlayer} wins!`);
-            updateScore();
-            clearInterval(interval);
+            highlightWinningCells(condition);
+            winSound.play();
+            updateStatus(`${currentPlayer === 'X' ? playerXName : playerOName} Wins! 🎉`);
+            gameButton.innerText = 'Restart Game';
             return;
         }
     }
 
     if (!gameBoard.includes('')) {
         isGameOver = true;
-        updateStatus('It\'s a Draw!');
-        clearInterval(interval);
+        updateStatus("It's a Draw! 🤝");
+        gameButton.innerText = 'Restart Game';
     }
 }
 
-function markWinningCells(cells) {
-    cells.forEach(index => {
-        const cell = document.querySelectorAll('.cell')[index];
-        cell.classList.add('winning-cell');
+// Highlight winning cells
+function highlightWinningCells(cellsIndexes) {
+    cellsIndexes.forEach(index => {
+        document.querySelector(`.cell[data-index="${index}"]`).classList.add('winning-cell');
     });
 }
 
+// Switch player turn
 function switchPlayer() {
     currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-    updateStatus(`Current Turn: ${currentPlayer}`);
-    document.body.classList.toggle('pulse', currentPlayer === 'X'); // Pulse effect on current player
+    updateStatus(`Current Turn: ${currentPlayer === 'X' ? playerXName : playerOName}`);
 }
 
-function restartGame() {
-    if (!confirm('Are you sure you want to restart the game?')) return;
-
-    // Reset game state
-    gameBoard = ['', '', '', '', '', '', '', '', ''];
-    isGameOver = false;
-    currentPlayer = Math.random() < 0.5 ? 'X' : 'O'; // Randomly choose who starts
-    timeLeft = 60;
-
-    // Clear previous game state from UI
-    cells.forEach(cell => {
-        cell.innerText = '';
-        cell.classList.remove('player-x', 'player-o', 'winning-cell', 'disabled');
-        cell.setAttribute('aria-disabled', 'false');
-    });
-
-    updateStatus(`Current Turn: ${currentPlayer}`);
-    clearInterval(interval);
-    startTimer();
-}
-
+// Update status message dynamically
 function updateStatus(message) {
     statusElement.innerText = message;
 }
 
-function updateScore() {
-    if (currentPlayer === 'X') {
-        scoreX++;
-        scoreXElement.innerText = scoreX;
-    } else {
-        scoreO++;
-        scoreOElement.innerText = scoreO;
-    }
+// Start or Restart Game
+function startOrRestartGame() {
+    isGameOver = false;
+    currentPlayer = 'X';
+    gameButton.innerText = 'Restart Game';
+    createBoard();
+    updatePlayerNames();
 }
 
-function startTimer() {
-    interval = setInterval(() => {
-        timeLeft--;
-        timerElement.innerText = `Time Left: ${timeLeft}s`;
-        progressElement.style.width = `${(timeLeft / 60) * 100}%`;
-
-        if (timeLeft <= 0) {
-            clearInterval(interval);
-            isGameOver = true;
-            updateStatus('Time is up! It\'s a Draw!');
-        }
-    }, 1000);
-}
-
-function toggleDarkMode() {
-    darkMode = !darkMode;
-    document.body.classList.toggle('dark', darkMode);
-    cells.forEach(cell => {
-        cell.classList.toggle('dark-mode-cell', darkMode);
-    });
-}
-
-cells.forEach(cell => {
-    cell.addEventListener('click', handleClick);
-});
-function updateStatus(player) {
-    const status = document.getElementById("status");
-    status.textContent = `${player}`;
-    status.classList.add("pulse");
-
-    setTimeout(() => {
-        status.classList.remove("pulse");
-    }, 600); // Remove the pulse effect after animation
-}
+// Initialize game on page load
+createBoard();

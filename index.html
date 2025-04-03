@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Advanced Tic-Tac-Toe</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -12,33 +12,30 @@
     <h1 class="page-title">Advanced Tic-Tac-Toe</h1>
     <div class="container">
       <div class="sidebar">
-        <h2>Player Names</h2>
-        <input type="text" id="playerX" placeholder="Enter Player X Name" />
-        <input type="text" id="playerO" placeholder="Enter Player O Name" />
+        <label for="playerX">Player X Name:</label>
+        <input type="text" id="playerX" placeholder="Enter Player X Name">
+        
+        <label for="playerO">Player O Name:</label>
+        <input type="text" id="playerO" placeholder="Enter Player O Name">
+
         <h2>Scoreboard</h2>
         <div class="scoreboard">
           <div>X: <span id="scoreX">0</span></div>
           <div>O: <span id="scoreO">0</span></div>
         </div>
-        <button onclick="restartGame()">Restart Game</button>
+
+        <!-- Merged Start/Restart Button -->
+        <button id="gameButton">Start Game</button>
         <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
       </div>
+
       <div class="board-container">
         <div class="status" id="status">Current Turn: X</div>
-        <div class="board">
-          <div class="cell" onclick="handleClick(0)"></div>
-          <div class="cell" onclick="handleClick(1)"></div>
-          <div class="cell" onclick="handleClick(2)"></div>
-          <div class="cell" onclick="handleClick(3)"></div>
-          <div class="cell" onclick="handleClick(4)"></div>
-          <div class="cell" onclick="handleClick(5)"></div>
-          <div class="cell" onclick="handleClick(6)"></div>
-          <div class="cell" onclick="handleClick(7)"></div>
-          <div class="cell" onclick="handleClick(8)"></div>
-        </div>
+        <div class="board"></div> <!-- Cells will be dynamically created -->
       </div>
     </div>
   </div>
+
   <script src="./main.js"></script>
 </body>
 </html>
