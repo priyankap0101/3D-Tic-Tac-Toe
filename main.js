@@ -4,6 +4,8 @@ let gameBoard = Array(9).fill('');
 let isGameOver = false;
 let playerXName = 'Player X';
 let playerOName = 'Player O';
+let scoreX = 0;
+let scoreO = 0;
 
 // Select Elements
 const board = document.querySelector('.board');
@@ -11,6 +13,10 @@ const statusElement = document.getElementById('status');
 const gameButton = document.getElementById('gameButton');
 const playerXInput = document.getElementById('playerX');
 const playerOInput = document.getElementById('playerO');
+const scoreXElement = document.getElementById('scoreX');
+const scoreOElement = document.getElementById('scoreO');
+const scoreboardXLabel = document.querySelector('.scoreboard .score-x-label');
+const scoreboardOLabel = document.querySelector('.scoreboard .score-o-label');
 
 // Sounds
 const winSound = new Audio('win.mp3'); 
@@ -40,15 +46,31 @@ function createBoard() {
 function updatePlayerNames() {
     playerXName = playerXInput.value.trim() || 'Player X';
     playerOName = playerOInput.value.trim() || 'Player O';
+
+    // Update Status
     updateStatus(`Current Turn: ${currentPlayer === 'X' ? playerXName : playerOName}`);
+
+    // Update Scoreboard Labels
+    document.querySelector('.score-x-label').innerText = `${playerXName}:`;
+    document.querySelector('.score-o-label').innerText = `${playerOName}:`;
+
+    // Also update scores if already displayed
+    updateScoreboard();
 }
+
+// Update the scoreboard dynamically
+function updateScoreboard() {
+    document.getElementById('scoreX').innerText = scoreX;
+    document.getElementById('scoreO').innerText = scoreO;
+}
+
 
 // Handle cell clicks
 function handleClick(event) {
     if (isGameOver) return;
 
     const index = event.target.dataset.index;
-    if (gameBoard[index] !== '') return;
+    if (gameBoard[index] !== '') return; // Prevent clicking the same cell twice
 
     clickSound.play();
 
@@ -75,6 +97,7 @@ function checkWinner() {
             highlightWinningCells(condition);
             winSound.play();
             updateStatus(`${currentPlayer === 'X' ? playerXName : playerOName} Wins! 🎉`);
+            updateScore(); // Update Scoreboard
             gameButton.innerText = 'Restart Game';
             return;
         }
@@ -84,6 +107,17 @@ function checkWinner() {
         isGameOver = true;
         updateStatus("It's a Draw! 🤝");
         gameButton.innerText = 'Restart Game';
+    }
+}
+
+// Update Scoreboard
+function updateScore() {
+    if (currentPlayer === 'X') {
+        scoreX++;
+        scoreXElement.innerText = scoreX;
+    } else {
+        scoreO++;
+        scoreOElement.innerText = scoreO;
     }
 }
 
@@ -111,8 +145,9 @@ function startOrRestartGame() {
     currentPlayer = 'X';
     gameButton.innerText = 'Restart Game';
     createBoard();
-    updatePlayerNames();
+    updatePlayerNames(); // Keep names updated
 }
 
 // Initialize game on page load
 createBoard();
+updatePlayerNames(); // Ensure names appear on the scoreboard at start
