@@ -140,3 +140,12 @@ function toggleDarkMode() {
 cells.forEach(cell => {
     cell.addEventListener('click', handleClick);
 });
+function updateStatus(player) {
+    const status = document.getElementById("status");
+    status.textContent = `${player}`;
+    status.classList.add("pulse");
+
+    setTimeout(() => {
+        status.classList.remove("pulse");
+    }, 600); // Remove the pulse effect after animation
+}
