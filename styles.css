@@ -154,29 +154,27 @@ input[type='text'] {
 
 /* Scoreboard */
 .scoreboard {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  max-width: 250px;
-  padding: 10px;
-  font-size: 1rem;
-  border-radius: 8px;
-  background: var(--container-bg);
-  box-shadow: 0 6px 15px var(--shadow-color);
-}
-
-.scoreboard div {
-  padding: 6px 10px;
-  min-width: 80px;
-  font-size: 1rem;
-  border-radius: 6px;
-}
-
-.scoreboard span {
-  font-size: 1.2rem;
-  color: var(--primary-color);
-}
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    max-width: 250px;
+    padding: 10px;
+    border-radius: 8px;
+    background: var(--container-bg);
+    box-shadow: 0 6px 15px var(--shadow-color);
+  }
+  
+  .scoreboard div {
+    padding: 6px 10px;
+    min-width: 80px;
+    border-radius: 6px;
+  }
+  
+  .scoreboard span {
+    color: var(--primary-color);
+  }
+  
 /* Status Display */
 .status {
   font-size: 1.4rem;
