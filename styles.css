@@ -1,249 +1,264 @@
-/* General Reset */
+/* Global Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-    user-select: none; /* Prevents text selection */
+    user-select: none;
 }
 
-/* Body Styling */
+/* Light Mode Default */
+:root {
+    --primary-bg: linear-gradient(135deg, #e0eafc, #f9f9f9);
+    --container-bg: rgba(255, 255, 255, 0.7);
+    --cell-bg: rgba(255, 255, 255, 0.95);
+    --text-color: #2c3e50;
+    --primary-color: #007bff;
+    --secondary-color: #0056b3;
+    --shadow-color: rgba(0, 0, 0, 0.15);
+    --glow-color: rgba(0, 123, 255, 0.5);
+}
+
+/* Dark Mode */
+.dark-mode {
+    --primary-bg: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    --container-bg: rgba(25, 25, 25, 0.85);
+    --cell-bg: rgba(45, 45, 45, 0.95);
+    --text-color: #ffffff;
+    --primary-color: #00aaff;
+    --secondary-color: #0088cc;
+    --shadow-color: rgba(0, 0, 0, 0.7);
+    --glow-color: rgba(0, 200, 255, 0.7);
+}
+
+/* Body */
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background: linear-gradient(135deg, #f3f4f6, #e0eafc);
-    transition: background 0.5s ease-in-out;
+    background: var(--primary-bg);
+    transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
+    color: var(--text-color);
 }
 
-/* Dark Mode */
-body.dark {
-    background: linear-gradient(135deg, #1e1e1e, #252525);
-    color: #fff;
-}
-
-/* Wrapper for Layout */
+/* Wrapper */
 .wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
+    padding: 2rem;
 }
 
-/* Title */
+/* Page Title */
 .page-title {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     font-weight: bold;
-    color: #2980b9;
-    margin-bottom: 1rem;
+    color: var(--primary-color);
+    margin-bottom: 1.2rem;
     text-align: center;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.2px;
+    text-shadow: 0px 0px 15px var(--glow-color);
     animation: fadeIn 1s ease-in-out;
 }
 
-/* Container */
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 25px;
+    background: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 10px var(--shadow-color);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.dark-mode-toggle:hover {
+    background: var(--secondary-color);
+    transform: scale(1.08);
+    box-shadow: 0 6px 18px var(--glow-color);
+}
+
+/* Game Container */
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1.2rem;
-    padding: 1.5rem;
+    gap: 1.5rem;
+    padding: 1.8rem;
     width: 90%;
-    max-width: 700px;
-    min-height: 420px;
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(15px);
-    border-radius: 16px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    max-width: 800px;
+    min-height: 500px;
+    background: var(--container-bg);
+    backdrop-filter: blur(18px);
+    border-radius: 18px;
+    box-shadow: 0 8px 25px var(--shadow-color);
     transition: all 0.4s ease-in-out;
-    animation: fadeInUp 1s ease-in-out;
 }
 
 /* Sidebar */
 .sidebar {
-    width: 220px;
+    width: 240px;
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.4);
+    gap: 1rem;
+    padding: 1.8rem;
+    background: var(--container-bg);
     backdrop-filter: blur(18px);
     border-radius: 14px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 6px 18px var(--shadow-color);
     text-align: center;
+    transition: transform 0.3s ease-in-out;
 }
 
-/* Sidebar Inputs */
-.sidebar input,
+.sidebar:hover {
+    transform: scale(1.03);
+}
+
 .sidebar button {
-    padding: 10px;
+    padding: 14px;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     font-size: 1rem;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.15);
-    outline: none;
-}
-
-/* Input Styling */
-.sidebar input {
-    background: rgba(255, 255, 255, 0.5);
-    color: #333;
-    font-weight: 500;
-    text-align: center;
-}
-
-/* Button Styling */
-.sidebar button {
-    background: linear-gradient(135deg, #3498db, #2980b9);
+    background: var(--primary-color);
     color: white;
     cursor: pointer;
     font-weight: bold;
+    box-shadow: 0 5px 15px var(--shadow-color);
     transition: all 0.3s ease-in-out;
-    box-shadow: 0 7px 18px rgba(0, 0, 0, 0.2);
 }
 
 .sidebar button:hover {
-    background: linear-gradient(135deg, #2980b9, #2471a3);
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    background: var(--secondary-color);
+    transform: translateY(-3px) scale(1.06);
+    box-shadow: 0 8px 22px var(--glow-color);
 }
 
-/* Board Section */
-.board-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-grow: 1;
-}
-
-/* Game Board */
+/* Board */
 .board {
     display: grid;
-    grid-template-columns: repeat(3, 6rem);
-    grid-template-rows: repeat(3, 6rem);
-    gap: 12px;
-    justify-content: center;
-    transition: transform 0.3s ease-in-out;
+    grid-template-columns: repeat(3, 7rem);
+    grid-template-rows: repeat(3, 7rem);
+    gap: 14px;
+    transition: transform 0.4s ease-in-out;
+    perspective: 1200px;
 }
 
 /* Game Cells */
 .cell {
-    width: 6rem;
-    height: 6rem;
-    font-size: 2.5rem;
-    font-weight: bold;
+    width: 7rem;
+    height: 7rem;
+    font-size: 3rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 10px;
+    font-weight: bold;
+    color: var(--text-color);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
     cursor: pointer;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.25);
+    transition: 
+        transform 0.3s ease-in-out, 
+        box-shadow 0.3s ease-in-out, 
+        background 0.3s;
+    box-shadow:
+        inset 4px 4px 12px rgba(255, 255, 255, 0.15),
+        inset -4px -4px 12px rgba(0, 0, 0, 0.3),
+        0 8px 16px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Hover Effect */
 .cell:hover {
-    transform: scale(1.08) rotate(2deg);
-    background: rgba(255, 255, 255, 0.7);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+    transform: scale(1.12);
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow:
+        0 14px 28px rgba(0, 0, 0, 0.5),
+        inset 5px 5px 15px rgba(255, 255, 255, 0.3);
 }
 
-/* Winning Cell Animation */
+/* Click Effect */
+.cell:active {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Winning Cell */
 .cell.winning-cell {
-    background: linear-gradient(135deg, #2ecc71, #27ae60);
-    box-shadow: 0 0 22px rgba(46, 204, 113, 0.8);
-    transform: scale(1.1) rotate(3deg);
-    animation: pulse 1s infinite alternate;
+    background: linear-gradient(135deg, #ff0099, #ffcc00);
+    color: white;
+    box-shadow:
+        0 0 40px rgba(255, 0, 153, 0.9),
+        0 0 50px rgba(255, 204, 0, 0.9),
+        inset 4px 4px 15px rgba(255, 255, 255, 0.3),
+        inset -4px -4px 15px rgba(0, 0, 0, 0.4);
+    transform: scale(1.2);
+    font-size: 3.5rem;
+    animation: glowEffect 1.5s infinite alternate;
 }
 
-/* Status Messages */
-.status {
-    font-size: 1.4rem;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 0.5rem;
-    color: #2980b9;
-    transition: all 0.5s ease-in-out;
-}
-
-/* Timer */
-.timer {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #e74c3c;
-    margin-top: 8px;
-    text-align: center;
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
+/* Winning Glow Animation */
+@keyframes glowEffect {
+    0% {
+        box-shadow:
+            0 0 40px rgba(255, 0, 153, 0.8),
+            0 0 50px rgba(255, 204, 0, 0.8);
     }
-    to {
-        opacity: 1;
-        transform: scale(1);
+    100% {
+        box-shadow:
+            0 0 50px rgba(255, 0, 153, 1),
+            0 0 60px rgba(255, 204, 0, 1);
     }
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Dark Mode Styling */
+.dark-mode .cell {
+    background: rgba(10, 10, 10, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+        inset 4px 4px 12px rgba(255, 255, 255, 0.1),
+        inset -4px -4px 12px rgba(0, 0, 0, 0.4);
 }
 
-@keyframes pulse {
-    from {
-        box-shadow: 0 0 12px rgba(46, 204, 113, 0.6);
-    }
-    to {
-        box-shadow: 0 0 22px rgba(46, 204, 113, 1);
-    }
+.dark-mode .cell:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-        gap: 0.8rem;
-        padding: 1rem;
-    }
+/* Dark Mode Winning Cell */
+.dark-mode .cell.winning-cell {
+    background: linear-gradient(135deg, #00eaff, #3bff94);
+    box-shadow:
+        0 0 40px rgba(0, 234, 255, 0.9),
+        0 0 50px rgba(59, 255, 148, 0.9),
+        inset 4px 4px 15px rgba(255, 255, 255, 0.3),
+        inset -4px -4px 15px rgba(0, 0, 0, 0.4);
+    animation: darkGlowEffect 1.5s infinite alternate;
+}
 
-    .sidebar {
-        width: 100%;
-        padding: 0.8rem;
+/* Dark Mode Winning Glow */
+@keyframes darkGlowEffect {
+    0% {
+        box-shadow:
+            0 0 40px rgba(0, 234, 255, 0.8),
+            0 0 50px rgba(59, 255, 148, 0.8);
     }
-
-    .board {
-        grid-template-columns: repeat(3, 4rem);
-        grid-template-rows: repeat(3, 4rem);
-        gap: 6px;
-    }
-
-    .cell {
-        width: 4rem;
-        height: 4rem;
-        font-size: 2rem;
-    }
-
-    .page-title {
-        font-size: 1.8rem;
-    }
-
-    .status {
-        font-size: 1.2rem;
+    100% {
+        box-shadow:
+            0 0 50px rgba(0, 234, 255, 1),
+            0 0 60px rgba(59, 255, 148, 1);
     }
 }
