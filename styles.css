@@ -73,9 +73,8 @@ body {
 
 /* Dark Mode Toggle */
 .dark-mode-toggle {
-  position: absolute;
-  top: 0.8rem;
-  right: 0.8rem;
+
+
   padding: 10px 18px;
   border-radius: 30px;
   background: var(--primary-color);

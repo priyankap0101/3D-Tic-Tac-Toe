@@ -151,3 +151,7 @@ function startOrRestartGame() {
 // Initialize game on page load
 createBoard();
 updatePlayerNames(); // Ensure names appear on the scoreboard at start
+const toggleBtn = document.getElementById('toggleTheme');
+toggleBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+});
