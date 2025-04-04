@@ -213,6 +213,14 @@
     cursor: pointer;
     transition: all 0.3s ease-in-out;
   }
+  .cell.x {
+    color: #ff4c4c; /* Red for X */
+  }
+  
+  .cell.o {
+    color: #00bfff; /* Blue for O */
+  }
+  
   .cell:hover {
     background: rgba(0, 0, 0, 0.1);
   }

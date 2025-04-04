@@ -15,143 +15,139 @@ const playerXInput = document.getElementById('playerX');
 const playerOInput = document.getElementById('playerO');
 const scoreXElement = document.getElementById('scoreX');
 const scoreOElement = document.getElementById('scoreO');
-const scoreboardXLabel = document.querySelector('.scoreboard .score-x-label');
-const scoreboardOLabel = document.querySelector('.scoreboard .score-o-label');
 
 // Sounds
-const winSound = new Audio('win.mp3'); 
-const clickSound = new Audio('click.mp3'); 
+const winSound = new Audio('win.mp3');
+const clickSound = new Audio('click.mp3');
 
 // Event Listeners
 playerXInput.addEventListener('input', updatePlayerNames);
 playerOInput.addEventListener('input', updatePlayerNames);
 gameButton.addEventListener('click', startOrRestartGame);
 
-// Dynamic Board Creation
+// Create the game board
 function createBoard() {
-    board.innerHTML = ''; 
-    gameBoard = Array(9).fill('');
-    isGameOver = false;
+  board.innerHTML = '';
+  gameBoard = Array(9).fill('');
+  isGameOver = false;
 
-    for (let i = 0; i < 9; i++) {
-        const cell = document.createElement('div');
-        cell.classList.add('cell');
-        cell.dataset.index = i;
-        cell.addEventListener('click', handleClick);
-        board.appendChild(cell);
-    }
+  for (let i = 0; i < 9; i++) {
+    const cell = document.createElement('div');
+    cell.classList.add('cell');
+    cell.dataset.index = i;
+    cell.addEventListener('click', handleClick);
+    board.appendChild(cell);
+  }
 }
 
-// Update player names dynamically
+// Update player names and scoreboard labels
 function updatePlayerNames() {
-    playerXName = playerXInput.value.trim() || 'Player X';
-    playerOName = playerOInput.value.trim() || 'Player O';
+  playerXName = playerXInput.value.trim() || 'Player X';
+  playerOName = playerOInput.value.trim() || 'Player O';
 
-    // Update Status
-    updateStatus(`Current Turn: ${currentPlayer === 'X' ? playerXName : playerOName}`);
+  updateStatus(`Current Turn: ${currentPlayer === 'X' ? playerXName : playerOName}`);
 
-    // Update Scoreboard Labels
-    document.querySelector('.score-x-label').innerText = `${playerXName}:`;
-    document.querySelector('.score-o-label').innerText = `${playerOName}:`;
+  document.querySelector('.score-x-label').innerText = `${playerXName}:`;
+  document.querySelector('.score-o-label').innerText = `${playerOName}:`;
 
-    // Also update scores if already displayed
-    updateScoreboard();
+  updateScoreboard();
 }
 
-// Update the scoreboard dynamically
+// Update the displayed scores
 function updateScoreboard() {
-    document.getElementById('scoreX').innerText = scoreX;
-    document.getElementById('scoreO').innerText = scoreO;
+  scoreXElement.innerText = scoreX;
+  scoreOElement.innerText = scoreO;
 }
 
-
-// Handle cell clicks
+// Handle clicks on the game board
 function handleClick(event) {
-    if (isGameOver) return;
+  if (isGameOver) return;
 
-    const index = event.target.dataset.index;
-    if (gameBoard[index] !== '') return; // Prevent clicking the same cell twice
+  const index = event.target.dataset.index;
+  if (gameBoard[index] !== '') return;
 
-    clickSound.play();
+  clickSound.play();
 
-    gameBoard[index] = currentPlayer;
-    event.target.innerText = currentPlayer;
-    event.target.classList.add(`player-${currentPlayer.toLowerCase()}`, 'bounce');
+  gameBoard[index] = currentPlayer;
+  event.target.innerText = currentPlayer;
+  event.target.classList.add(currentPlayer.toLowerCase(), 'bounce');
 
-    checkWinner();
-    if (!isGameOver) switchPlayer();
+  checkWinner();
+  if (!isGameOver) switchPlayer();
 }
 
-// Check for a winner or draw
+// Check for a win or a draw
 function checkWinner() {
-    const winConditions = [
-        [0, 1, 2], [3, 4, 5], [6, 7, 8], 
-        [0, 3, 6], [1, 4, 7], [2, 5, 8], 
-        [0, 4, 8], [2, 4, 6]
-    ];
+  const winConditions = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8],
+    [0, 3, 6], [1, 4, 7], [2, 5, 8],
+    [0, 4, 8], [2, 4, 6]
+  ];
 
-    for (let condition of winConditions) {
-        const [a, b, c] = condition;
-        if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
-            isGameOver = true;
-            highlightWinningCells(condition);
-            winSound.play();
-            updateStatus(`${currentPlayer === 'X' ? playerXName : playerOName} Wins! 🎉`);
-            updateScore(); // Update Scoreboard
-            gameButton.innerText = 'Restart Game';
-            return;
-        }
+  for (let condition of winConditions) {
+    const [a, b, c] = condition;
+    if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+      isGameOver = true;
+      highlightWinningCells(condition);
+      winSound.play();
+      updateStatus(`${currentPlayer === 'X' ? playerXName : playerOName} Wins! 🎉`);
+      updateScore();
+      gameButton.innerText = 'Restart Game';
+      return;
     }
+  }
 
-    if (!gameBoard.includes('')) {
-        isGameOver = true;
-        updateStatus("It's a Draw! 🤝");
-        gameButton.innerText = 'Restart Game';
-    }
+  if (!gameBoard.includes('')) {
+    isGameOver = true;
+    updateStatus("It's a Draw! 🤝");
+    gameButton.innerText = 'Restart Game';
+  }
 }
 
-// Update Scoreboard
+// Update the winner's score
 function updateScore() {
-    if (currentPlayer === 'X') {
-        scoreX++;
-        scoreXElement.innerText = scoreX;
-    } else {
-        scoreO++;
-        scoreOElement.innerText = scoreO;
-    }
+  if (currentPlayer === 'X') {
+    scoreX++;
+    scoreXElement.innerText = scoreX;
+  } else {
+    scoreO++;
+    scoreOElement.innerText = scoreO;
+  }
 }
 
-// Highlight winning cells
+// Highlight the winning cells
 function highlightWinningCells(cellsIndexes) {
-    cellsIndexes.forEach(index => {
-        document.querySelector(`.cell[data-index="${index}"]`).classList.add('winning-cell');
-    });
+  cellsIndexes.forEach(index => {
+    document.querySelector(`.cell[data-index="${index}"]`).classList.add('winning-cell');
+  });
 }
 
 // Switch player turn
 function switchPlayer() {
-    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-    updateStatus(`Current Turn: ${currentPlayer === 'X' ? playerXName : playerOName}`);
+  currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+  updateStatus(`Current Turn: ${currentPlayer === 'X' ? playerXName : playerOName}`);
 }
 
-// Update status message dynamically
+// Display status message
 function updateStatus(message) {
-    statusElement.innerText = message;
+  statusElement.innerText = message;
 }
 
-// Start or Restart Game
+// Start or restart the game
 function startOrRestartGame() {
-    isGameOver = false;
-    currentPlayer = 'X';
-    gameButton.innerText = 'Restart Game';
-    createBoard();
-    updatePlayerNames(); // Keep names updated
+  isGameOver = false;
+  currentPlayer = 'X';
+  gameButton.innerText = 'Restart Game';
+  createBoard();
+  updatePlayerNames();
 }
 
-// Initialize game on page load
-createBoard();
-updatePlayerNames(); // Ensure names appear on the scoreboard at start
+// Dark mode toggle
 const toggleBtn = document.getElementById('toggleTheme');
 toggleBtn.addEventListener('click', () => {
   document.body.classList.toggle('dark-mode');
 });
+
+// Initialize game
+createBoard();
+updatePlayerNames();
