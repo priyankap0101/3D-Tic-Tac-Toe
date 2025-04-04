@@ -1,57 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Tic-Tac-Toe</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
     <div class="wrapper">
-      <h1 class="page-title">Advanced Tic-Tac-Toe</h1>
-      <div class="container">
-        <div class="sidebar">
-          <!-- Toggle for AI Mode -->
-          <label class="ai-toggle-container">
-            Play vs AI
-            <input type="checkbox" id="aiToggle" checked />
-            <div class="toggle-switch"></div>
-          </label>
-          
-          <label for="playerX">Player X Name:</label>
-          <input type="text" id="playerX" placeholder="Enter Player X Name" />
+        <h1 class="page-title">Advanced Tic-Tac-Toe</h1>
+        <div class="container">
+            <!-- Dark mode icon inside top-right of container -->
+            <button class="dark-mode-toggle" id="toggleTheme">
+              <i class="fas fa-moon"></i>
+            </button>
 
-          <label for="playerO">Player O Name:</label>
-          <input type="text" id="playerO" placeholder="Enter Player O Name" />
+            <div class="sidebar">
+                <label class="ai-toggle-container">
+                    Play vs AI
+                    <input type="checkbox" id="aiToggle" checked>
+                    <div class="toggle-switch"></div>
+                </label>
 
-          <h2>Scoreboard</h2>
-          <div class="scoreboard">
-            <div>
-              <span class="score-x-label">X:</span> <span id="scoreX">0</span>
+                <label for="playerX">Player X Name:</label>
+                <input type="text" id="playerX" placeholder="Enter Player X Name">
+
+                <label for="playerO">Player O Name:</label>
+                <input type="text" id="playerO" placeholder="Enter Player O Name">
+
+                <h2>Scoreboard</h2>
+                <div class="scoreboard">
+                    <div><span class="score-x-label">X:</span> <span id="scoreX">0</span></div>
+                    <div><span class="score-o-label">O:</span> <span id="scoreO">0</span></div>
+                </div>
+
+                <button id="gameButton">Start Game</button>
             </div>
-            <div>
-              <span class="score-o-label">O:</span> <span id="scoreO">0</span>
-            </div>
-          </div>
-          <!-- Merged Start/Restart Button -->
-          <button id="gameButton">Start Game</button>
-          <button class="dark-mode-toggle" id="toggleTheme">
-            Toggle Dark Mode
-          </button>
-        </div>
 
-        <div class="board-container">
-          <div class="status" id="status">Current Turn: X</div>
-          <div class="board"></div>
-          <!-- Cells will be dynamically created -->
+            <div class="board-container">
+                <div class="status" id="status">Current Turn: X</div>
+                <div class="board"></div>
+            </div>
         </div>
-      </div>
     </div>
 
-    <script src="./main.js"></script>
-  </body>
+    <script src="main.js"></script>
+</body>
 </html>

@@ -17,6 +17,7 @@ const playerOInput = document.getElementById('playerO');
 const scoreXElement = document.getElementById('scoreX');
 const scoreOElement = document.getElementById('scoreO');
 const aiToggle = document.getElementById('aiToggle');
+const toggleBtn = document.getElementById('toggleTheme');
 
 // Sounds
 const winSound = new Audio('win.mp3');
@@ -30,6 +31,9 @@ aiToggle.addEventListener('change', () => {
   isSinglePlayer = aiToggle.checked;
   updatePlayerNames();
   startOrRestartGame();
+});
+toggleBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
 });
 
 // Create the game board
@@ -166,12 +170,6 @@ function startOrRestartGame() {
   createBoard();
   updatePlayerNames();
 }
-
-// Dark mode toggle
-const toggleBtn = document.getElementById('toggleTheme');
-toggleBtn.addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');
-});
 
 // Initialize game
 createBoard();
