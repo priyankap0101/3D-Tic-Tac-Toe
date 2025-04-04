@@ -263,7 +263,9 @@
   /* Dark Mode Overrides */
   .dark-mode .cell {
     background: rgba(10, 10, 10, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.167);
   }
+  
   .dark-mode .cell.winning-cell {
     background: linear-gradient(135deg, #00eaff, #3bff94);
     box-shadow: 0 0 30px rgba(0, 234, 255, 0.9);
