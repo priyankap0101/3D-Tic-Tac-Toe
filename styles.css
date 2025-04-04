@@ -108,37 +108,34 @@ body {
   box-shadow: 0 8px 25px var(--shadow-color);
 }
 
-/* Sidebar */
 .sidebar {
-  width: 220px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1.5rem;
-  background: var(--container-bg);
-  border-radius: 12px;
-  box-shadow: 0 8px 20px var(--shadow-color);
-}
-
-/* Sidebar Buttons */
-.sidebar button {
-  padding: 12px;
-  border: none;
-  border-radius: 12px;
-  font-size: 1rem;
-  background: var(--primary-color);
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-  box-shadow: 0 5px 18px var(--shadow-color);
-  transition: all 0.3s ease-in-out;
-}
-
-.sidebar button:hover {
-  background: var(--secondary-color);
-  transform: scale(1.05);
-  box-shadow: 0 12px 30px var(--glow-color);
-}
+    width: 220px;
+    flex-direction: column;
+    gap: 0.5rem; /* reduced gap more */
+    display: flex;
+  }
+  
+  .sidebar button,
+  button {
+    padding: 6px 12px; /* further reduced height */
+    font-size: 0.85rem; /* smaller font */
+    border: none;
+    border-radius: 8px; /* slightly more compact corners */
+    background: var(--primary-color);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 3px 10px var(--shadow-color); /* reduced shadow */
+  }
+  
+  .sidebar button:hover,
+  button:hover {
+    background: var(--secondary-color);
+    transform: scale(1.04);
+    box-shadow: 0 8px 16px var(--glow-color);
+  }
+  
 
 /* Player Input Fields */
 input[type='text'] {
