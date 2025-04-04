@@ -171,6 +171,14 @@ function startOrRestartGame() {
   updatePlayerNames();
 }
 
+document.getElementById('resetBtn').addEventListener('click', () => {
+    scoreX = 0;
+    scoreO = 0;
+    updateScoreboard();
+    startOrRestartGame(); // fully resets board and state
+  });
+  
+  
 // Initialize game
 createBoard();
 updatePlayerNames();

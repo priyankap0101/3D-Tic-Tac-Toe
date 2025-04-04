@@ -119,6 +119,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  margin-right: 1.5rem;
 }
 
 /* Buttons */
@@ -126,7 +127,7 @@ body {
 button {
   margin-top: 1rem;
   padding: 8px 14px;
-  font-size: 1.3rem;
+  font-size: 1rem;
   border: none;
   border-radius: 10px;
   background: var(--primary-color);
@@ -143,7 +144,15 @@ button:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 18px var(--glow-color);
 }
-
+#resetBtn {
+    margin-top: 1rem;
+    background: var(--danger-color, #e74c3c); /* fallback red */
+  }
+  #resetBtn:hover {
+    background: var(--danger-hover, #c0392b);
+    box-shadow: 0 8px 20px rgba(231, 76, 60, 0.5);
+  }
+  
 /* Player Input Fields */
 input[type='text'] {
   width: 100%;
@@ -164,7 +173,19 @@ input[type='text']:focus {
   transform: scale(1.03);
   border-color: var(--primary-color);
 }
-
+input::placeholder {
+    color: #aaa;               /* Light gray color */
+    font-style: italic;        /* Italic text */
+    font-size: 0.85rem;        /* Slightly smaller font size */
+    letter-spacing: 0.5px;     /* Spacing between letters */
+    opacity: 1;                /* Full opacity */
+    transition: color 0.3s;
+  }
+  
+  input:focus::placeholder {
+    color: var(--primary-color);  /* Highlight placeholder on focus */
+  }
+  
 /* Scoreboard */
 .scoreboard {
   display: flex;
