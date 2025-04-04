@@ -1,40 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Advanced Tic-Tac-Toe</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css">
-</head>
-<body>
-  <div class="wrapper">
-    <h1 class="page-title">Advanced Tic-Tac-Toe</h1>
-    <div class="container">
-      <div class="sidebar">
-        <label for="playerX">Player X Name:</label>
-        <input type="text" id="playerX" placeholder="Enter Player X Name">
-        
-        <label for="playerO">Player O Name:</label>
-        <input type="text" id="playerO" placeholder="Enter Player O Name">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Tic-Tac-Toe</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1 class="page-title">Advanced Tic-Tac-Toe</h1>
+      <div class="container">
+        <div class="sidebar">
+          <label for="playerX">Player X Name:</label>
+          <input type="text" id="playerX" placeholder="Enter Player X Name" />
 
-        <h2>Scoreboard</h2>
-        <div class="scoreboard">
-          <div><span class="score-x-label">X:</span> <span id="scoreX">0</span></div>
-          <div><span class="score-o-label">O:</span> <span id="scoreO">0</span></div>
+          <label for="playerO">Player O Name:</label>
+          <input type="text" id="playerO" placeholder="Enter Player O Name" />
+
+          <h2>Scoreboard</h2>
+          <div class="scoreboard">
+            <div>
+              <span class="score-x-label">X:</span> <span id="scoreX">0</span>
+            </div>
+            <div>
+              <span class="score-o-label">O:</span> <span id="scoreO">0</span>
+            </div>
+          </div>
+          <!-- Merged Start/Restart Button -->
+          <button id="gameButton">Start Game</button>
+          <button class="dark-mode-toggle" id="toggleTheme">
+            Toggle Dark Mode
+          </button>
         </div>
-        <!-- Merged Start/Restart Button -->
-        <button id="gameButton">Start Game</button>
-        <button class="dark-mode-toggle" id="toggleTheme">Toggle Dark Mode</button>
-      </div>
 
-      <div class="board-container">
-        <div class="status" id="status">Current Turn: X</div>
-        <div class="board"></div> <!-- Cells will be dynamically created -->
+        <div class="board-container">
+          <div class="status" id="status">Current Turn: X</div>
+          <div class="board"></div>
+          <!-- Cells will be dynamically created -->
+        </div>
       </div>
     </div>
-  </div>
 
-  <script src="./main.js"></script>
-</body>
+    <script src="./main.js"></script>
+  </body>
 </html>
