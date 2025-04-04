@@ -6,6 +6,7 @@ let playerXName = 'Player X';
 let playerOName = 'Player O';
 let scoreX = 0;
 let scoreO = 0;
+let isSinglePlayer = true; // Toggle for playing with AI
 
 // Select Elements
 const board = document.querySelector('.board');
@@ -15,6 +16,7 @@ const playerXInput = document.getElementById('playerX');
 const playerOInput = document.getElementById('playerO');
 const scoreXElement = document.getElementById('scoreX');
 const scoreOElement = document.getElementById('scoreO');
+const aiToggle = document.getElementById('aiToggle');
 
 // Sounds
 const winSound = new Audio('win.mp3');
@@ -24,6 +26,11 @@ const clickSound = new Audio('click.mp3');
 playerXInput.addEventListener('input', updatePlayerNames);
 playerOInput.addEventListener('input', updatePlayerNames);
 gameButton.addEventListener('click', startOrRestartGame);
+aiToggle.addEventListener('change', () => {
+  isSinglePlayer = aiToggle.checked;
+  updatePlayerNames();
+  startOrRestartGame();
+});
 
 // Create the game board
 function createBoard() {
@@ -43,7 +50,7 @@ function createBoard() {
 // Update player names and scoreboard labels
 function updatePlayerNames() {
   playerXName = playerXInput.value.trim() || 'Player X';
-  playerOName = playerOInput.value.trim() || 'Player O';
+  playerOName = isSinglePlayer ? 'AI' : (playerOInput.value.trim() || 'Player O');
 
   updateStatus(`Current Turn: ${currentPlayer === 'X' ? playerXName : playerOName}`);
 
@@ -66,14 +73,32 @@ function handleClick(event) {
   const index = event.target.dataset.index;
   if (gameBoard[index] !== '') return;
 
-  clickSound.play();
+  makeMove(index);
+  if (!isGameOver && isSinglePlayer && currentPlayer === 'O') {
+    setTimeout(aiMove, 500); // Delay for better UX
+  }
+}
 
+// Make a move by a player or AI
+function makeMove(index) {
   gameBoard[index] = currentPlayer;
-  event.target.innerText = currentPlayer;
-  event.target.classList.add(currentPlayer.toLowerCase(), 'bounce');
+  const cell = document.querySelector(`.cell[data-index='${index}']`);
+  cell.innerText = currentPlayer;
+  cell.classList.add(currentPlayer.toLowerCase(), 'bounce');
 
+  clickSound.play();
   checkWinner();
   if (!isGameOver) switchPlayer();
+}
+
+// Basic AI logic to play a random empty cell
+function aiMove() {
+  if (isGameOver) return;
+
+  const emptyCells = gameBoard.map((v, i) => v === '' ? i : null).filter(v => v !== null);
+  const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+
+  makeMove(randomIndex);
 }
 
 // Check for a win or a draw
@@ -118,7 +143,7 @@ function updateScore() {
 // Highlight the winning cells
 function highlightWinningCells(cellsIndexes) {
   cellsIndexes.forEach(index => {
-    document.querySelector(`.cell[data-index="${index}"]`).classList.add('winning-cell');
+    document.querySelector(`.cell[data-index='${index}']`).classList.add('winning-cell');
   });
 }
 

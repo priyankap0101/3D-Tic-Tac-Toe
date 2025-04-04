@@ -294,4 +294,59 @@ body.dark-mode .cell.o {
   .dark-mode .cell.winning-cell.o {
     color: #ffffff; /* Light blue for O */
   }
+  /* AI Toggle Container */
+.ai-toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    font-weight: 500;
+    justify-content: space-between;
+    width: 200px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .dark-mode .ai-toggle-container {
+    background-color: #2c2c2c;
+    color: #fff;
+  }
+  
+  /* Hide default checkbox */
+  #aiToggle {
+    display: none;
+  }
+  
+  /* Custom Toggle Switch */
+  .toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 25px;
+    background: #ddd;
+    border-radius: 50px;
+    transition: 0.3s;
+  }
+  
+  .toggle-switch::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    top: 2.5px;
+    left: 4px;
+    transition: 0.3s;
+  }
+  
+  /* Checked state (AI enabled) */
+  #aiToggle:checked + .toggle-switch {
+    background: #007bff;
+  }
+  
+  #aiToggle:checked + .toggle-switch::before {
+    transform: translateX(24px);
+  }
   
