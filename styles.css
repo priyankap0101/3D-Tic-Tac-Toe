@@ -115,12 +115,15 @@ body {
 
 /* Sidebar */
 .sidebar {
-  width: 220px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-right: 1.5rem;
-}
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;        /* Smaller gap between items */
+    margin-right: 1.5rem;
+    padding: 0.25rem 0;  /* Reduced vertical padding */
+    align-items: stretch;
+  }
+  
 
 /* Buttons */
 .sidebar button,
