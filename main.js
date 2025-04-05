@@ -22,13 +22,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggleBtn = document.querySelector('.dark-mode-toggle');
   const resetBtn = document.getElementById('resetBtn');
 
+  // Sounds
+  const winSound = new Audio('win.mp3');
+  const clickSound = new Audio('click.mp3');
 
-
+  // Dark Mode Toggle
   if (toggleBtn) {
     toggleBtn.addEventListener('click', () => {
       document.body.classList.toggle('dark-mode');
-  
-      // Toggle between moon and sun icons
+
       const icon = toggleBtn.querySelector('i');
       if (document.body.classList.contains('dark-mode')) {
         icon.classList.remove('fa-moon');
@@ -105,8 +107,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (gameBoard[index] !== '') return;
 
     makeMove(index);
-    if (!isGameOver && isSinglePlayer && currentPlayer === 'O') {
-      setTimeout(aiMove, 500); // Delay for better UX
+
+    if (!isGameOver) {
+      switchPlayer();
+
+      if (isSinglePlayer && currentPlayer === 'O') {
+        setTimeout(aiMove, 500); // Delay for better UX
+      }
     }
   }
 
@@ -119,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     clickSound.play();
     checkWinner();
-    if (!isGameOver) switchPlayer();
   }
 
   // Basic AI logic to play a random empty cell
@@ -130,6 +136,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (emptyCells.length > 0) {
       const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
       makeMove(randomIndex);
+
+      if (!isGameOver) {
+        switchPlayer(); // switch back to player X
+      }
     }
   }
 
