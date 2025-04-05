@@ -381,6 +381,58 @@ body.dark-mode .cell.o { color: #66ccff; }
 #aiToggle:checked + .toggle-switch::before {
   transform: translateX(24px);
 }
+#difficultySelect {
+  padding: 12px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #111;
+  backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.2),
+              0 8px 24px rgba(0, 0, 0, 0.2);
+  appearance: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 10px auto;
+  display: block;
+
+  width: 100%;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%23000' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 10px 6px;
+}
+
+/* Hover/focus effect */
+#difficultySelect:hover,
+#difficultySelect:focus {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.2),
+              0 10px 28px rgba(0, 0, 0, 0.3);
+}
+
+/* Remove default arrow in IE/Edge */
+#difficultySelect::-ms-expand {
+  display: none;
+}
+
+/* Dark mode styles */
+.dark-mode #difficultySelect {
+  background: rgba(40, 40, 40, 0.35);
+  color: #f1f1f1;
+  box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.05),
+              0 8px 24px rgba(0, 0, 0, 0.4);
+  
+}
+
+.dark-mode #difficultySelect:hover,
+.dark-mode #difficultySelect:focus {
+  background: rgba(60, 60, 60, 0.45);
+  box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.08),
+              0 10px 30px rgba(0, 0, 0, 0.6);
+}
 
 @media (max-width: 600px) {
   .board {

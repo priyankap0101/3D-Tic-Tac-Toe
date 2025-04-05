@@ -1,14 +1,13 @@
-// Wait for the DOM to be fully loaded before executing script
 document.addEventListener('DOMContentLoaded', () => {
-  // Game State Variables
   let currentPlayer = 'X';
   let gameBoard = Array(9).fill('');
   let isGameOver = false;
   let playerXName = 'Player X';
   let playerOName = 'Player O';
-  let scoreX = 0;
-  let scoreO = 0;
-  let isSinglePlayer = true; // Toggle for playing with AI
+  let scoreX = parseInt(localStorage.getItem('scoreX')) || 0;
+  let scoreO = parseInt(localStorage.getItem('scoreO')) || 0;
+  let isSinglePlayer = true;
+  let aiDifficulty = 'hard'; // 'easy' or 'hard'
 
   // Select Elements
   const board = document.querySelector('.board');
@@ -21,30 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const aiToggle = document.getElementById('aiToggle');
   const toggleBtn = document.querySelector('.dark-mode-toggle');
   const resetBtn = document.getElementById('resetBtn');
+  const difficultySelect = document.getElementById('difficultySelect');
 
-  // Sounds
   const winSound = new Audio('win.mp3');
   const clickSound = new Audio('click.mp3');
 
-  // Dark Mode Toggle
   if (toggleBtn) {
     toggleBtn.addEventListener('click', () => {
       document.body.classList.toggle('dark-mode');
-
       const icon = toggleBtn.querySelector('i');
-      if (document.body.classList.contains('dark-mode')) {
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-      } else {
-        icon.classList.remove('fa-sun');
-        icon.classList.add('fa-moon');
-      }
+      icon.classList.toggle('fa-sun');
+      icon.classList.toggle('fa-moon');
     });
-  } else {
-    console.error('Dark mode toggle button not found!');
   }
 
-  // Event Listeners
   playerXInput.addEventListener('input', updatePlayerNames);
   playerOInput.addEventListener('input', updatePlayerNames);
   gameButton.addEventListener('click', startOrRestartGame);
@@ -54,18 +43,18 @@ document.addEventListener('DOMContentLoaded', () => {
     startOrRestartGame();
   });
 
-  if (resetBtn) {
-    resetBtn.addEventListener('click', () => {
-      scoreX = 0;
-      scoreO = 0;
-      updateScoreboard();
-      startOrRestartGame();
-    });
-  } else {
-    console.error('Reset button not found!');
-  }
+  difficultySelect.addEventListener('change', () => {
+    aiDifficulty = difficultySelect.value;
+  });
 
-  // Create the game board
+  resetBtn?.addEventListener('click', () => {
+    scoreX = scoreO = 0;
+    localStorage.setItem('scoreX', '0');
+    localStorage.setItem('scoreO', '0');
+    updateScoreboard();
+    startOrRestartGame();
+  });
+
   function createBoard() {
     board.innerHTML = '';
     gameBoard = Array(9).fill('');
@@ -80,82 +69,122 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Update player names and scoreboard labels
   function updatePlayerNames() {
     playerXName = playerXInput.value.trim() || 'Player X';
     playerOName = isSinglePlayer ? 'AI' : (playerOInput.value.trim() || 'Player O');
-
-    updateStatus(`Current Turn: ${currentPlayer === 'X' ? playerXName : playerOName}`);
-
+    updateStatus(`Turn: ${currentPlayer === 'X' ? playerXName : playerOName}`);
     document.querySelector('.score-x-label').innerText = `${playerXName}:`;
     document.querySelector('.score-o-label').innerText = `${playerOName}:`;
-
     updateScoreboard();
   }
 
-  // Update the displayed scores
   function updateScoreboard() {
     scoreXElement.innerText = scoreX;
     scoreOElement.innerText = scoreO;
   }
 
-  // Handle clicks on the game board
-  function handleClick(event) {
+  function handleClick(e) {
     if (isGameOver) return;
-
-    const index = event.target.dataset.index;
+    const index = e.target.dataset.index;
     if (gameBoard[index] !== '') return;
 
     makeMove(index);
 
     if (!isGameOver) {
       switchPlayer();
-
       if (isSinglePlayer && currentPlayer === 'O') {
-        setTimeout(aiMove, 500); // Delay for better UX
+        setTimeout(aiMove, 300);
       }
     }
   }
 
-  // Make a move by a player or AI
   function makeMove(index) {
     gameBoard[index] = currentPlayer;
     const cell = document.querySelector(`.cell[data-index='${index}']`);
     cell.innerText = currentPlayer;
     cell.classList.add(currentPlayer.toLowerCase(), 'bounce');
-
     clickSound.play();
     checkWinner();
   }
 
-  // Basic AI logic to play a random empty cell
   function aiMove() {
-    if (isGameOver) return;
-
-    const emptyCells = gameBoard.map((v, i) => v === '' ? i : null).filter(v => v !== null);
-    if (emptyCells.length > 0) {
-      const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-      makeMove(randomIndex);
-
-      if (!isGameOver) {
-        switchPlayer(); // switch back to player X
+    if (aiDifficulty === 'easy') {
+      const empty = gameBoard.map((v, i) => v === '' ? i : null).filter(v => v !== null);
+      if (empty.length) {
+        makeMove(empty[Math.floor(Math.random() * empty.length)]);
+        switchPlayer();
       }
+    } else {
+      let bestScore = -Infinity;
+      let move;
+      for (let i = 0; i < gameBoard.length; i++) {
+        if (gameBoard[i] === '') {
+          gameBoard[i] = 'O';
+          const score = minimax(gameBoard, 0, false);
+          gameBoard[i] = '';
+          if (score > bestScore) {
+            bestScore = score;
+            move = i;
+          }
+        }
+      }
+      makeMove(move);
+      if (!isGameOver) switchPlayer();
     }
   }
 
-  // Check for a win or a draw
-  function checkWinner() {
-    const winConditions = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 8],
-      [0, 3, 6], [1, 4, 7], [2, 5, 8],
-      [0, 4, 8], [2, 4, 6]
-    ];
+  function minimax(board, depth, isMax) {
+    const result = evaluateBoard();
+    if (result !== null) return result;
 
-    for (let condition of winConditions) {
-      const [a, b, c] = condition;
+    if (isMax) {
+      let best = -Infinity;
+      for (let i = 0; i < board.length; i++) {
+        if (board[i] === '') {
+          board[i] = 'O';
+          best = Math.max(best, minimax(board, depth + 1, false));
+          board[i] = '';
+        }
+      }
+      return best;
+    } else {
+      let best = Infinity;
+      for (let i = 0; i < board.length; i++) {
+        if (board[i] === '') {
+          board[i] = 'X';
+          best = Math.min(best, minimax(board, depth + 1, true));
+          board[i] = '';
+        }
+      }
+      return best;
+    }
+  }
+
+  function evaluateBoard() {
+    const wins = [
+      [0,1,2], [3,4,5], [6,7,8],
+      [0,3,6], [1,4,7], [2,5,8],
+      [0,4,8], [2,4,6]
+    ];
+    for (const [a,b,c] of wins) {
+      if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+        return gameBoard[a] === 'O' ? 10 : -10;
+      }
+    }
+    if (!gameBoard.includes('')) return 0;
+    return null;
+  }
+
+  function checkWinner() {
+    const wins = [
+      [0,1,2], [3,4,5], [6,7,8],
+      [0,3,6], [1,4,7], [2,5,8],
+      [0,4,8], [2,4,6]
+    ];
+    for (const [a,b,c] of wins) {
       if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
         isGameOver = true;
-        highlightWinningCells(condition);
+        highlightWinningCells([a,b,c]);
         winSound.play();
         updateStatus(`${currentPlayer === 'X' ? playerXName : playerOName} Wins! 🎉`);
         updateScore();
@@ -171,36 +200,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Update the winner's score
   function updateScore() {
     if (currentPlayer === 'X') {
       scoreX++;
-      scoreXElement.innerText = scoreX;
+      localStorage.setItem('scoreX', scoreX);
     } else {
       scoreO++;
-      scoreOElement.innerText = scoreO;
+      localStorage.setItem('scoreO', scoreO);
     }
+    updateScoreboard();
   }
 
-  // Highlight the winning cells
-  function highlightWinningCells(cellsIndexes) {
-    cellsIndexes.forEach(index => {
-      document.querySelector(`.cell[data-index='${index}']`).classList.add('winning-cell');
+  function highlightWinningCells(cells) {
+    cells.forEach(i => {
+      document.querySelector(`.cell[data-index='${i}']`).classList.add('winning-cell');
     });
   }
 
-  // Switch player turn
   function switchPlayer() {
     currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-    updateStatus(`Current Turn: ${currentPlayer === 'X' ? playerXName : playerOName}`);
+    updateStatus(`Turn: ${currentPlayer === 'X' ? playerXName : playerOName}`);
   }
 
-  // Display status message
-  function updateStatus(message) {
-    statusElement.innerText = message;
+  function updateStatus(msg) {
+    statusElement.innerText = msg;
   }
 
-  // Start or restart the game
   function startOrRestartGame() {
     isGameOver = false;
     currentPlayer = 'X';
@@ -209,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePlayerNames();
   }
 
-  // Initialize game
+  // Init
   createBoard();
   updatePlayerNames();
 });
