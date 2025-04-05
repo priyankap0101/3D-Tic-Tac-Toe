@@ -15,7 +15,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+
   background: var(--primary-bg);
   color: var(--text-color);
   transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
@@ -60,21 +60,20 @@ body {
 
 /* Simple Yet Catchy Page Title */
 .page-title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    margin-bottom: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    text-shadow: 1px 1px 4px var(--glow-color);
-    transition: transform 0.3s ease, text-shadow 0.3s ease;
-  }
-  
-  .page-title:hover {
-    transform: scale(1.05);
-    text-shadow: 2px 2px 8px var(--glow-color);
-  }
-  
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-shadow: 1px 1px 4px var(--glow-color);
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+.page-title:hover {
+  transform: scale(1.05);
+  text-shadow: 2px 2px 8px var(--glow-color);
+}
 
 /* Game Container */
 .container {
@@ -102,8 +101,8 @@ body {
   padding: 10px;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 18px;
-  width: 40px;
+  font-size: 10px;
+  width: 45px;
   height: 40px;
   display: flex;
   justify-content: center;
@@ -112,7 +111,7 @@ body {
 
 /* Adjusting icon size */
 .dark-mode-toggle i {
-  font-size: 20px;
+  font-size: 25px;
 }
 
 /* Optional: Change icon on dark mode */
@@ -122,15 +121,14 @@ body {
 
 /* Sidebar */
 .sidebar {
-    width: 220px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;        /* Smaller gap between items */
-    margin-right: 1.5rem;
-    padding: 0.25rem 0;  /* Reduced vertical padding */
-    align-items: stretch;
-  }
-  
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem; /* Smaller gap between items */
+  margin-right: 1.5rem;
+  padding: 0.25rem 0; /* Reduced vertical padding */
+  align-items: stretch;
+}
 
 /* Buttons */
 .sidebar button,
@@ -155,14 +153,14 @@ button:hover {
   box-shadow: 0 8px 18px var(--glow-color);
 }
 #resetBtn {
-    margin-top: 1rem;
-    background: var(--danger-color, #e74c3c); /* fallback red */
-  }
-  #resetBtn:hover {
-    background: var(--danger-hover, #c0392b);
-    box-shadow: 0 8px 20px rgba(231, 76, 60, 0.5);
-  }
-  
+  margin-top: 1rem;
+  background: var(--danger-color, #e74c3c); /* fallback red */
+}
+#resetBtn:hover {
+  background: var(--danger-hover, #c0392b);
+  box-shadow: 0 8px 20px rgba(231, 76, 60, 0.5);
+}
+
 /* Player Input Fields */
 input[type='text'] {
   width: 100%;
@@ -184,18 +182,18 @@ input[type='text']:focus {
   border-color: var(--primary-color);
 }
 input::placeholder {
-    color: #aaa;               /* Light gray color */
-    font-style: italic;        /* Italic text */
-    font-size: 0.85rem;        /* Slightly smaller font size */
-    letter-spacing: 0.5px;     /* Spacing between letters */
-    opacity: 1;                /* Full opacity */
-    transition: color 0.3s;
-  }
-  
-  input:focus::placeholder {
-    color: var(--primary-color);  /* Highlight placeholder on focus */
-  }
-  
+  color: #aaa; /* Light gray color */
+  font-style: italic; /* Italic text */
+  font-size: 0.85rem; /* Slightly smaller font size */
+  letter-spacing: 0.5px; /* Spacing between letters */
+  opacity: 1; /* Full opacity */
+  transition: color 0.3s;
+}
+
+input:focus::placeholder {
+  color: var(--primary-color); /* Highlight placeholder on focus */
+}
+
 /* Scoreboard */
 .scoreboard {
   display: flex;
@@ -231,8 +229,6 @@ h2 {
   padding: 12px;
 
   letter-spacing: 1px;
-
-  
 }
 
 h2:hover {
@@ -242,16 +238,16 @@ h2:hover {
 /* Status Display */
 .status {
   font-size: 1rem;
-  font-weight: bold;
-  background: var(--container-bg);
-  padding: 16px 26px;
-  margin-bottom: 35px;
-  border-radius: 14px;
+  padding: 10px 16px;
+  max-width: 280px;
+  width: 90%;
+  margin: 1rem auto;
   text-align: center;
-  min-width: 240px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+font-weight: bolder;
+  background: var(--container-bg);
+
+  border-radius: 14px;
+
   letter-spacing: 1px;
   border: 2px solid var(--border-glow);
   box-shadow: 0 6px 18px var(--shadow-color);
@@ -272,26 +268,38 @@ h2:hover {
 /* Game Board */
 .board {
   display: grid;
-  grid-template-columns: repeat(3, 100px);
-  grid-template-rows: repeat(3, 100px);
-  gap: 10px;
-  justify-content: center;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4vw; /* Responsive gap */
+  width: 90vw;
+  max-width: 360px;
   margin: 20px auto;
 }
+
+/* Responsive Cell */
 .cell {
-  width: 100px;
-  height: 100px;
-  font-size: 2rem;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-}
+    aspect-ratio: 1 / 1; /* Maintain square shape */
+    flex: 1 1 min(100px, 20vw); /* Flex-grow, shrink, and base size */
+    font-size: clamp(1.25rem, 4vw, 3rem); /* Scales nicely on all screens */
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cell-bg);
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.3s ease;
+  }
+  
+  /* Optional: subtle interaction effects */
+  .cell:hover {
+    transform: scale(1.05);
+    background: var(--cell-hover-bg, #e0e0e0);
+  }
+  .cell:active {
+    transform: scale(0.95);
+  }
+  
 .cell.x {
   color: #ff4c4c;
 }
@@ -418,4 +426,38 @@ body.dark-mode .cell.o {
 }
 #aiToggle:checked + .toggle-switch::before {
   transform: translateX(24px);
+}
+@media (max-width: 600px) {
+  /* Grid Container */
+  .board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    gap: 10px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+  }
+
+  /* Responsive Cell */
+  .cell {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Keeps square shape */
+    font-size: clamp(1.2rem, 4.5vw, 2.5rem);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cell-bg, #fff);
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+  }
+
+  /* Optional hover effect */
+  .cell:hover {
+    transform: scale(1.05);
+    background-color: var(--cell-hover-bg, #f0f0f0);
+  }
 }
