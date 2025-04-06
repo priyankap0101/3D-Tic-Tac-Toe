@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let isSinglePlayer = true;
   let aiDifficulty = 'hard'; 
 
-  // Select Elements
   const board = document.querySelector('.board');
   const statusElement = document.getElementById('status');
   const gameButton = document.getElementById('gameButton');
