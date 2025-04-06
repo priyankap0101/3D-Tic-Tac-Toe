@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let scoreX = parseInt(localStorage.getItem('scoreX')) || 0;
   let scoreO = parseInt(localStorage.getItem('scoreO')) || 0;
   let isSinglePlayer = true;
-  let aiDifficulty = 'hard'; // 'easy' or 'hard'
+  let aiDifficulty = 'hard'; 
 
   // Select Elements
   const board = document.querySelector('.board');
@@ -21,9 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggleBtn = document.querySelector('.dark-mode-toggle');
   const resetBtn = document.getElementById('resetBtn');
   const difficultySelect = document.getElementById('difficultySelect');
-
-  const winSound = new Audio('win.mp3');
-  const clickSound = new Audio('click.mp3');
 
   if (toggleBtn) {
     toggleBtn.addEventListener('click', () => {
@@ -103,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cell = document.querySelector(`.cell[data-index='${index}']`);
     cell.innerText = currentPlayer;
     cell.classList.add(currentPlayer.toLowerCase(), 'bounce');
-    clickSound.play();
+
     checkWinner();
   }
 
@@ -162,11 +159,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function evaluateBoard() {
     const wins = [
-      [0,1,2], [3,4,5], [6,7,8],
-      [0,3,6], [1,4,7], [2,5,8],
-      [0,4,8], [2,4,6]
+      [0, 1, 2], [3, 4, 5], [6, 7, 8],
+      [0, 3, 6], [1, 4, 7], [2, 5, 8],
+      [0, 4, 8], [2, 4, 6]
     ];
-    for (const [a,b,c] of wins) {
+    for (const [a, b, c] of wins) {
       if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
         return gameBoard[a] === 'O' ? 10 : -10;
       }
@@ -177,15 +174,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function checkWinner() {
     const wins = [
-      [0,1,2], [3,4,5], [6,7,8],
-      [0,3,6], [1,4,7], [2,5,8],
-      [0,4,8], [2,4,6]
+      [0, 1, 2], [3, 4, 5], [6, 7, 8],
+      [0, 3, 6], [1, 4, 7], [2, 5, 8],
+      [0, 4, 8], [2, 4, 6]
     ];
-    for (const [a,b,c] of wins) {
+    for (const [a, b, c] of wins) {
       if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
         isGameOver = true;
-        highlightWinningCells([a,b,c]);
-        winSound.play();
+        highlightWinningCells([a, b, c]);
+
         updateStatus(`${currentPlayer === 'X' ? playerXName : playerOName} Wins! 🎉`);
         updateScore();
         gameButton.innerText = 'Restart Game';
@@ -234,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePlayerNames();
   }
 
-  // Init
+ 
   createBoard();
   updatePlayerNames();
 });

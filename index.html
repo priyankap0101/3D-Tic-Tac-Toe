@@ -1,61 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Tic-Tac-Toe</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div class="wrapper">
-        <h1 class="page-title">Tic-Tac-Toe</h1>
-        <div class="container">
-            <!-- Dark mode icon inside top-right of container -->
-            <button class="dark-mode-toggle">
-                <i class="fas fa-moon"></i> <!-- Will switch to 'fa-sun' in dark mode -->
-              </button>
-              
+      <h1 class="page-title">Tic-Tac-Toe</h1>
+      <div class="container">
+        <!-- Dark mode icon inside top-right of container -->
+        <button class="dark-mode-toggle">
+          <i class="fas fa-moon"></i>
+          <!-- Will switch to 'fa-sun' in dark mode -->
+        </button>
 
-            
+        <div class="sidebar">
+          <label class="ai-toggle-container">
+            Play vs AI
+            <input type="checkbox" id="aiToggle" checked />
+            <div class="toggle-switch"></div>
+          </label>
+          <select id="difficultySelect">
+            <option value="hard">Hard</option>
+            <option value="easy">Easy</option>
+          </select>
 
-            <div class="sidebar">
-                <label class="ai-toggle-container">
-                    Play vs AI
-                    <input type="checkbox" id="aiToggle" checked>
-                    <div class="toggle-switch"></div>
-                </label>
-                <select id="difficultySelect">
-                    <option value="hard">Hard</option>
-                    <option value="easy">Easy</option>
-                  </select>
-                  
-                <label for="playerX"></label>
-                <input type="text" id="playerX" placeholder="Enter Player X Name">
+          <label for="playerX"></label>
+          <input type="text" id="playerX" placeholder="Enter Player X Name" />
 
-                <label for="playerO"></label>
-                <input type="text" id="playerO" placeholder="Enter Player O Name">
+          <label for="playerO"></label>
+          <input type="text" id="playerO" placeholder="Enter Player O Name" />
 
-                <h2>Scoreboard</h2>
-                <div class="scoreboard">
-                    <div><span class="score-x-label">X:</span> <span id="scoreX">0</span></div>
-                    <div><span class="score-o-label">O:</span> <span id="scoreO">0</span></div>
-                </div>
-
-                <button id="gameButton">Start Game</button>
-                
-                <button id="resetBtn">Reset Game</button>
-
+          <h2>Scoreboard</h2>
+          <div class="scoreboard">
+            <div>
+              <span class="score-x-label">X:</span> <span id="scoreX">0</span>
             </div>
-
-            <div class="board-container">
-                <div class="status" id="status">Current Turn: X</div>
-                <div class="board"></div>
+            <div>
+              <span class="score-o-label">O:</span> <span id="scoreO">0</span>
             </div>
+          </div>
+
+          <button id="gameButton">Start Game</button>
+
+          <button id="resetBtn">Reset Game</button>
         </div>
+
+        <div class="board-container">
+          <div class="status" id="status">Current Turn: X</div>
+          <div class="board"></div>
+        </div>
+      </div>
     </div>
 
     <script src="main.js"></script>
-</body>
+  </body>
 </html>
