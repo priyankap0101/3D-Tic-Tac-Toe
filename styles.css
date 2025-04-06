@@ -184,7 +184,7 @@ button:hover {
 input[type='text'] {
   width: 100%;
   padding: 10px;
-  
+
   text-align: center;
   border-radius: 10px;
   border: 1px solid var(--border-glow);
