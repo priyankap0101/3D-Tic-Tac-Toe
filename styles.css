@@ -108,7 +108,7 @@ body {
 }
 
 .dark-mode-toggle i {
-  font-size: 22px;
+  font-size: 2rem;
   color: #111;
   transition: color 0.3s ease, transform 0.3s ease;
 }
